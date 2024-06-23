@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  fullName   String
+  username   String    @unique
+  email      String    @unique
+  password   String
+  cpf        String    @unique
+  photoUser  String?
+  status     Boolean
+  created_at DateTime? @default(now())
+  purchases  Purchase[]
+
+  @@map("users")
+}
+
+model Clothing {
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  description   String
+  color         String
+  size          String
+  price         Float
+  category      String
+  photoClothing String
+  purchases     Purchase[]
+
+  @@map("clothing")
+}
+
+model Purchase {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  clothingId String  @db.ObjectId
+  quantity  Int
+  total     Float
+  statusPurchase Boolean
+  date      DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
+  clothing  Clothing @relation(fields: [clothingId], references: [id])
+
+  @@map("purchases")
+  @@index([userId])
+  @@index([clothingId])
+}
