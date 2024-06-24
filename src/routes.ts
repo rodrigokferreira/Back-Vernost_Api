@@ -2,6 +2,7 @@ import { FastifyInstance, FastifyPluginOptions, FastifyRequest, FastifyReply } f
 import { UserController } from "./controllers/UserControler"; // Verifique o nome do arquivo aqui
 import { ClothingController } from "./controllers/ClothingControler";
 import { DeleteClothingController } from "./controllers/DeleteClothingController";
+import { UpdateClothingController } from "./controllers/UpdateController";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
     
@@ -15,5 +16,9 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
 
     fastify.delete("/administrador", async (request: FastifyRequest, reply: FastifyReply) => {
         return new DeleteClothingController().handle(request, reply);
+    })
+
+    fastify.put("/administrador", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new UpdateClothingController().handle(request, reply);
     })
 }
