@@ -5,6 +5,7 @@ import { DeleteClothingController } from "./controllers/Clothing/DeleteClothingC
 import { UpdateClothingController } from "./controllers/Clothing/UpdateClothingController";
 import { listUserController } from "./controllers/Users/ListUserController";
 import { GetUserController } from "./controllers/Users/GetUserController";
+import { UpdateUserController } from "./controllers/Users/UpdateUserController";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
     
@@ -15,6 +16,10 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     fastify.get("/perfil/user", async (request: FastifyRequest, reply: FastifyReply) => {
         return new GetUserController().handle(request, reply);
     });
+
+    fastify.put("/perfil", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new UpdateUserController().handle(request, reply);
+    })
 
     fastify.post("/cadastro", async (request: FastifyRequest, reply: FastifyReply) => {
         return new UserController().handle(request, reply);
