@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import UpdateClothingService from "../models/UpdateClothingService";
+import UpdateClothingService from "../../models/Clothing/UpdateClothingService";
 
 class UpdateClothingController {
     async handle(request: FastifyRequest, reply: FastifyReply) {

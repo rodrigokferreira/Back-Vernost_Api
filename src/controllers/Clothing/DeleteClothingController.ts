@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import DeleteClothing from "../models/DeleteClothing";
+import DeleteClothing from "../../models/Clothing/DeleteClothing";
 
 class DeleteClothingController {
     async handle(request: FastifyRequest, reply: FastifyReply) {

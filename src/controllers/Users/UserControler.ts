@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import UserService from "../models/UserService"; // Verifique o caminho e o nome do arquivo aqui
+import UserService from "../../models/Users/UserService";
 
 class UserController {
     async handle(request: FastifyRequest, reply: FastifyReply) {

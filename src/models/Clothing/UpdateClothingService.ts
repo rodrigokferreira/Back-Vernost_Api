@@ -1,4 +1,4 @@
-import prismaClient from "../prisma";
+import prismaClient from "../../prisma";
 
 interface UpdateClothingProps {
     id: string; // ID da roupa a ser atualizada
