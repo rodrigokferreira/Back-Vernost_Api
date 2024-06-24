@@ -36,6 +36,7 @@ model Clothing {
   size          String
   price         Float
   category      String
+  quantity      Int
   photoClothing String
   purchases     Purchase[]
 
