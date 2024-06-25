@@ -58,4 +58,4 @@ model Purchase {
   @@map("purchases")
   @@index([userId])
   @@index([clothingId])
-}
+} 

@@ -3,8 +3,8 @@ import { ListUserService } from "../../models/Users/ListUserService";
 
 class listUserController {
     async handle(request: FastifyRequest, reply: FastifyReply) {
-        const listUserController = new ListUserService()
-        const user = await listUserController.execute()
+        const listUserService = new ListUserService()
+        const user = await listUserService.execute()
         reply.send(user)
     }
 }
