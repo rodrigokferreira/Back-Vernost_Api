@@ -8,6 +8,7 @@ import { GetUserController } from "./controllers/Users/GetUserController";
 import { UpdateUserController } from "./controllers/Users/UpdateUserController";
 import { listClothingController } from "./controllers/Clothing/ListClothingController";
 import { GetClothingController } from "./controllers/Clothing/GetClothingController";
+import PurchaseController from "./controllers/Purchases/PurchaseController";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
     
@@ -39,6 +40,10 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     // Api para criar usuario e mandalo para o banco
     fastify.post("/cadastro", async (request: FastifyRequest, reply: FastifyReply) => {
         return new UserController().handle(request, reply);
+    });
+
+    fastify.post("/compras", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new PurchaseController().handle(request, reply);
     });
 
     // Api para criar roupas
