@@ -9,6 +9,7 @@ import { UpdateUserController } from "./controllers/Users/UpdateUserController";
 import { listClothingController } from "./controllers/Clothing/ListClothingController";
 import { GetClothingController } from "./controllers/Clothing/GetClothingController";
 import PurchaseController from "./controllers/Purchases/PurchaseController";
+import { ListPurchaseController } from "./controllers/Purchases/ListPurchaseController";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
     
@@ -32,6 +33,11 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
         return new GetClothingController().handle(request, reply);
     });
 
+    //Api para listar compras
+    fastify.get("/compras", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new ListPurchaseController().handle(request, reply);
+    });
+
     //Api para atualizar perfil do usuario
     fastify.put("/perfil", async (request: FastifyRequest, reply: FastifyReply) => {
         return new UpdateUserController().handle(request, reply);
@@ -42,6 +48,7 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
         return new UserController().handle(request, reply);
     });
 
+    //Api para criar compras
     fastify.post("/compras", async (request: FastifyRequest, reply: FastifyReply) => {
         return new PurchaseController().handle(request, reply);
     });
