@@ -3,13 +3,17 @@ import UserService from "../../models/Users/UserService";
 
 class UserController {
     async handle(request: FastifyRequest, reply: FastifyReply) {
-        const { fullName, username, email, password, cpf, status, photouser } = request.body as { fullName: string, username: string, email: string, password: string, cpf: string, status: Boolean, photouser: string };
+        const { fullName, username, email, password, cpf, status, photoUser } = request.body as { fullName: string, username: string, email: string, password: string, cpf: string, status: Boolean, photoUser?: string };
 
         const userService = new UserService();
-        const user = await userService.execute({ fullName, username, email, password, cpf, status, photouser });
-        console.log(user);
-
-        reply.send(user);
+        
+        try {
+            const user = await userService.execute({ fullName, username, email, password, cpf, status, photoUser });
+            reply.send(user);
+        } catch (error) {
+            console.error("Erro ao criar usuário:", error);
+            reply.status(500).send({ error: "Erro ao criar usuário" });
+        }
     }
 }
 

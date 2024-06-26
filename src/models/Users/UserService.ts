@@ -1,17 +1,17 @@
 import prismaClient from "../../prisma";
 
 interface UserServiceProps {
-    fullName: string,
-    username: string,
-    email: string,
-    password: string,
-    cpf: string,
-    status: Boolean,
-    photouser?: string
+    fullName: string;
+    username: string;
+    email: string;
+    password: string;
+    cpf: string;
+    status: Boolean;
+    photoUser?: string;
 }
 
 class UserService {
-    async execute({fullName, username, email, password, cpf, status, photouser}: UserServiceProps) {
+    async execute({fullName, username, email, password, cpf, status, photoUser}: UserServiceProps) {
         
         if (!fullName || !username || !email || !password || !cpf) {
             throw new Error("Preencha todos os campos");
@@ -23,11 +23,12 @@ class UserService {
             email,
             password,
             cpf,
-            status
+            status,
         };
 
-        if (photouser) {
-            data.photoUser = photouser; // Corrigido para photoUser
+        // Verifica se photoUser está presente e adiciona ao objeto data
+        if (photoUser !== undefined) {
+            data.photoUser = photoUser;
         }
 
         const user = await prismaClient.user.create({

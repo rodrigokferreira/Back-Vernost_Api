@@ -44,18 +44,20 @@ model Clothing {
 }
 
 model Purchase {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String   @db.ObjectId
-  clothingId String  @db.ObjectId
-  quantity  Int
-  total     Float
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String   @db.ObjectId
+  clothingId    String   @db.ObjectId
+  nameUser      String
+  nameClothing  String
+  quantity      Int
+  total         Float
   statusPurchase Boolean
-  date      DateTime @default(now())
+  date          DateTime @default(now())
 
-  user      User     @relation(fields: [userId], references: [id])
-  clothing  Clothing @relation(fields: [clothingId], references: [id])
+  user          User     @relation(fields: [userId], references: [id])
+  clothing      Clothing @relation(fields: [clothingId], references: [id])
 
   @@map("purchases")
   @@index([userId])
   @@index([clothingId])
-} 
+}
