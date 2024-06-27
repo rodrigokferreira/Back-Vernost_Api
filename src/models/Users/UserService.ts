@@ -1,4 +1,5 @@
 import prismaClient from "../../prisma";
+import bcrypt from "bcrypt";
 
 interface UserServiceProps {
     fullName: string;
@@ -17,11 +18,13 @@ class UserService {
             throw new Error("Preencha todos os campos");
         }
 
+        const crptPassoword = await bcrypt.hash(password, 10);
+
         const data: any = {
             fullName,
             username,
             email,
-            password,
+            password: crptPassoword,
             cpf,
             status,
         };

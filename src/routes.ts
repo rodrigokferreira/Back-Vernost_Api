@@ -10,6 +10,7 @@ import { listClothingController } from "./controllers/Clothing/ListClothingContr
 import { GetClothingController } from "./controllers/Clothing/GetClothingController";
 import PurchaseController from "./controllers/Purchases/PurchaseController";
 import { ListPurchaseController } from "./controllers/Purchases/ListPurchaseController";
+import AuthController from "./controllers/Users/AuthController";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
     
@@ -56,6 +57,10 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     // Api para criar roupas
     fastify.post("/administrador", async (request: FastifyRequest, reply: FastifyReply) => {
         return new ClothingController().handle(request, reply);
+    })
+
+    fastify.post("/login", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new AuthController().handle(request, reply);
     })
 
     // Api para deletar Roupa da tabela
