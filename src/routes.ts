@@ -12,6 +12,7 @@ import PurchaseController from "./controllers/Purchases/PurchaseController";
 import { ListPurchaseController } from "./controllers/Purchases/ListPurchaseController";
 import AuthController from "./controllers/Users/AuthController";
 import ListUserPurchasesController from "./controllers/Purchases/ListUserPurchasesController";
+import { DeletePurchaseController } from "./controllers/Purchases/DeletePurchaseController";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
     
@@ -77,5 +78,9 @@ export async function routes(fastify: FastifyInstance, options: FastifyPluginOpt
     // Api para Atualizar Roupa
     fastify.put("/administrador", async (request: FastifyRequest, reply: FastifyReply) => {
         return new UpdateClothingController().handle(request, reply);
+    })
+
+    fastify.delete("/administrador/compras", async (request: FastifyRequest, reply: FastifyReply) => {
+        return new DeletePurchaseController().handle(request, reply);
     })
 }
