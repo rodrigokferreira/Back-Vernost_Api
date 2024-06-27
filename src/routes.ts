@@ -11,12 +11,18 @@ import { GetClothingController } from "./controllers/Clothing/GetClothingControl
 import PurchaseController from "./controllers/Purchases/PurchaseController";
 import { ListPurchaseController } from "./controllers/Purchases/ListPurchaseController";
 import AuthController from "./controllers/Users/AuthController";
+import ListUserPurchasesController from "./controllers/Purchases/ListUserPurchasesController";
 
 export async function routes(fastify: FastifyInstance, options: FastifyPluginOptions) {
     
     // Api para buscar todos os Usuarios
     fastify.get("/perfil", async (request: FastifyRequest, reply: FastifyReply) => {
         return new listUserController().handle(request, reply);
+    });
+
+    // Api para listar compras de um usuário específico
+    fastify.get('/compras/user/:userId', async (request, reply) => {
+        return new ListUserPurchasesController().handle(request, reply);
     });
 
     // Api para buscar todas as roupas

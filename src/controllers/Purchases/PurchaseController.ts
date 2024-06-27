@@ -36,7 +36,7 @@ class PurchaseController {
                 nameClothing: clothing.name // Nome da roupa
             });
 
-            //Atualizar Estoque
+            // Atualizar Estoque
             const updatedClothing = await prismaClient.clothing.update({
                 where: { id: clothing.id },
                 data: {

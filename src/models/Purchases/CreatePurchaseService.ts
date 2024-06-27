@@ -13,34 +13,42 @@ interface CreatePurchaseProps {
 class CreatePurchaseService {
     async execute({ userId, clothingId, quantity, total, statusPurchase, nameUser, nameClothing }: CreatePurchaseProps) {
         try {
-            // Verificar se userId e clothingId são IDs válidos do MongoDB (opcional)
-            const validUser = await prismaClient.user.findUnique({ where: { id: userId } });
-            if (!validUser) {
-                throw new Error(`Usuário com ID ${userId} não encontrado.`);
-            }
-
-            const validClothing = await prismaClient.clothing.findUnique({ where: { id: clothingId } });
-            if (!validClothing) {
-                throw new Error(`Roupa com ID ${clothingId} não encontrada.`);
-            }
-
-            // Criar a compra no banco de dados
-            const purchase = await prismaClient.purchase.create({
-                data: {
+            // Verificar se já existe uma compra para este usuário e roupa
+            let purchase = await prismaClient.purchase.findFirst({
+                where: {
                     userId,
                     clothingId,
-                    quantity,
-                    total,
-                    statusPurchase,
-                    nameUser,
-                    nameClothing
-                }
+                },
             });
+
+            if (purchase) {
+                // Atualizar a compra existente
+                purchase = await prismaClient.purchase.update({
+                    where: { id: purchase.id },
+                    data: {
+                        quantity: purchase.quantity + quantity,
+                        total: purchase.total + total,
+                    },
+                });
+            } else {
+                // Criar uma nova compra
+                purchase = await prismaClient.purchase.create({
+                    data: {
+                        userId,
+                        clothingId,
+                        quantity,
+                        total,
+                        statusPurchase,
+                        nameUser,
+                        nameClothing,
+                    },
+                });
+            }
 
             return purchase;
         } catch (error) {
-            console.error('Erro ao criar compra:', error);
-            throw new Error(`Erro ao criar compra: ${error}`);
+            console.error('Erro ao criar ou atualizar compra:', error);
+            throw new Error(`Erro ao criar ou atualizar compra: ${error}`);
         }
     }
 }
