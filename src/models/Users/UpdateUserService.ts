@@ -6,10 +6,11 @@ interface UpdateUserProps {
     username: string;
     email: string;
     photoUser: string;
+    status?: boolean;
 }
 
 class UpdateUserService {
-    async execute({ id, fullName, username, email, photoUser }: UpdateUserProps) {
+    async execute({ id, fullName, username, email, photoUser, status }: UpdateUserProps) {
         try {
             const user = await prismaClient.user.update({
                 where: { id },
@@ -17,7 +18,8 @@ class UpdateUserService {
                     fullName,
                     username,
                     email,
-                    photoUser
+                    photoUser,
+                    status
                 }
             });
             return user;

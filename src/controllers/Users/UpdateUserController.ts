@@ -5,15 +5,16 @@ class UpdateUserController {
     async handle(request: FastifyRequest, reply: FastifyReply) {
         try {
             const { id } = request.query as { id: string };
-            const { fullName, username, email, photoUser } = request.body as {
+            const { fullName, username, email, photoUser, status } = request.body as {
                 fullName: string,
                 username: string,
                 email: string,
-                photoUser: string
+                photoUser: string,
+                status?: boolean
             };
 
             const updateUserService = new UpdateUserService();
-            const update = await updateUserService.execute({ id, fullName, username, email, photoUser });
+            const update = await updateUserService.execute({ id, fullName, username, email, photoUser, status });
 
             reply.send(update);
         } catch (error) {

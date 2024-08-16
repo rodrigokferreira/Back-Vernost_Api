@@ -1,6 +1,9 @@
 import Fastify from "fastify";
 import cors from '@fastify/cors';
+import dotenv from 'dotenv';
 import { routes } from './routes';
+
+dotenv.config();  // Carrega variáveis de ambiente
 
 const app = Fastify({ logger: true });
 
@@ -22,4 +25,3 @@ const start = async () => {
 };
 
 start();
-    

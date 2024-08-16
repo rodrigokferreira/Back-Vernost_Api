@@ -38,26 +38,37 @@ model Clothing {
   category      String
   quantity      Int
   photoClothing String
-  purchases     Purchase[]
+  clothingItems ClothingItem[] // Relacionamento com ClothingItem
 
   @@map("clothing")
 }
 
 model Purchase {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId        String   @db.ObjectId
-  clothingId    String   @db.ObjectId
-  nameUser      String
-  nameClothing  String
-  quantity      Int
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String       @db.ObjectId
+  clothingItems ClothingItem[]
   total         Float
   statusPurchase Boolean
-  date          DateTime @default(now())
+  date          DateTime     @default(now())
 
-  user          User     @relation(fields: [userId], references: [id])
-  clothing      Clothing @relation(fields: [clothingId], references: [id])
+  user          User         @relation(fields: [userId], references: [id])
 
   @@map("purchases")
   @@index([userId])
+}
+
+model ClothingItem {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  clothingId    String    @db.ObjectId
+  purchaseId    String    @db.ObjectId
+  nameClothing  String
+  quantity      Int
+  price         Float
+
+  purchase      Purchase  @relation(fields: [purchaseId], references: [id])
+  clothing      Clothing  @relation(fields: [clothingId], references: [id])
+
+  @@map("clothing_items")
   @@index([clothingId])
+  @@index([purchaseId])
 }

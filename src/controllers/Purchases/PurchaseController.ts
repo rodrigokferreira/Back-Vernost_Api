@@ -7,7 +7,6 @@ class PurchaseController {
         const { userId, clothingId, quantity } = request.body as { userId: string; clothingId: string; quantity: number };
 
         try {
-            // Verificar se userId e clothingId são IDs válidos do MongoDB
             const user = await prismaClient.user.findUnique({ where: { id: userId } });
             if (!user) {
                 console.log(`Usuário com ID ${userId} não encontrado.`);
@@ -20,28 +19,22 @@ class PurchaseController {
                 return reply.status(404).send({ error: 'Clothing not found' });
             }
 
-            // Calcular o total com base no preço do item
-            const total = clothing.price * quantity;
-            const statusPurchase = true; // ou outro valor baseado na lógica de negócio
-
-            // Criar serviço de criação de compra e executar
+            const price = clothing.price;
             const createPurchaseService = new CreatePurchaseService();
             const purchase = await createPurchaseService.execute({
-                userId: user.id,            // Passar o ID válido do usuário
-                clothingId: clothing.id,    // Passar o ID válido da roupa
+                userId: user.id,
+                clothingId: clothing.id,
                 quantity,
-                total,
-                statusPurchase,
-                nameUser: user.fullName,   // Nome completo do usuário
-                nameClothing: clothing.name // Nome da roupa
+                price,
+                nameClothing: clothing.name,
             });
 
             // Atualizar Estoque
-            const updatedClothing = await prismaClient.clothing.update({
+            await prismaClient.clothing.update({
                 where: { id: clothing.id },
                 data: {
-                    quantity: clothing.quantity - quantity  // Diminuir a quantidade comprada do estoque atual
-                }
+                    quantity: clothing.quantity - quantity,
+                },
             });
 
             return reply.status(201).send(purchase);
